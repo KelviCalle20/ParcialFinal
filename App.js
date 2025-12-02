@@ -18,8 +18,31 @@ app.get("/estado", (req, res) => {
   });
 });
 
+app.post("/datos", (req, res) => {
+  const { nombre, correo, edad } = req.body;
+
+  if (!nombre || !correo || !edad) {
+    return res.status(400).json({
+      ok: false,
+      mensaje: "Todos los campos son obligatorios"
+    });
+  }
+
+  const nuevoRegistro = {
+    id: Date.now(),
+    nombre,
+    correo,
+    edad,
+    fechaRegistro: new Date().toISOString()
+  };
+
+  res.status(201).json({
+    ok: true,
+    mensaje: "Registro creado correctamente",
+    data: nuevoRegistro
+  });
+});
 
 app.listen(PORT, () => {
     console.log(`servicio corriendo en http://localhost:${PORT}`);
 })
-
